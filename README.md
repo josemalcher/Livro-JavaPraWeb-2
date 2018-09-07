@@ -41,7 +41,109 @@
 
 ## <a name="parte2">Primeiros passos com o JavaServer Faces</a>
 
+2.8 - Checklist e teste  
+:white_check_mark: - Criar projeto teste do tipo Maven Project  
+:white_check_mark: - Alterar o pom.xml para vincular ao Java 1.8 e padronizar para UTF-8  
 
+```xml
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.1</version>
+            <configuration>
+                <source>1.8</source>
+                <target>1.8</target>
+            </configuration>
+        </plugin>
+        <plugin>
+            <artifactId>maven-resources-plugin</artifactId>
+            <version>2.7</version>
+            <configuration>
+                <encoding>UTF-8</encoding>
+            </configuration>
+        </plugin>
+    </plugins>
+	</build>
+```
+
+:white_check_mark: - Executar o Maven Update Project (Alt + f5)  
+:white_check_mark: - Alterar as propriedades do projeto para que ele se comporte como um projeto Web  
+:white_check_mark: - configurações específicas do JSF a partir do link **further configuration avaliable**  
+:white_check_mark: - Alterar manualmente a versão do web.xml devido a um bug no eclipse  
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+        http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">	
+```
+:white_check_mark: - Adicionar configurações no arquivo web.xml
+
+```xml
+<context-param>
+    <param-name>javax.faces.PROJECT_STAGE</param-name>
+    <param-value>Development</param-value>
+</context-param>
+<context-param>
+    <param-name>javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL</param-name>
+    <param-value>true</param-value>
+</context-param>
+<context-param>
+    <param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
+    <param-value>true</param-value>
+</context-param>
+<welcome-file-list>
+    <welcome-file>index.jsf</welcome-file>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+</welcome-file-list>
+```
+
+:white_check_mark: - Incluir repositório  e as dependências necessárias ao JSF no pom.xml
+
+```xml
+<repositories>
+    <repository>
+        <id>jvnet-nexus-releases</id>
+        <name>jvnet-nexus-releases</name>
+        <url>https://maven.java.net/content/repositories/releases/</url>
+    </repository>
+</repositories>
+<dependencies>
+    <dependency>
+        <groupId>javax</groupId>
+        <artifactId>javaee-api</artifactId>
+        <version>7.0</version>
+        <scope>provided</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.glassfish</groupId>
+        <artifactId>javax.faces</artifactId>
+        <version>2.2.10</version>
+    </dependency>
+</dependencies>
+```
+
+:white_check_mark: - Criar o arquivo OlaMundo.xhtml para realização de teste
+
+```html
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>Olá Mundo!</title>
+</h:head>
+<h:body>
+<h1>Teset inicial JSF</h1>
+<h:outputText value="Olá Mundo"></h:outputText>
+</h:body>
+</html>
+```
 
 [Voltar ao Índice](#indice)
 
