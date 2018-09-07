@@ -29,11 +29,18 @@
 
 ## <a name="parte1">Preparação do ambiente de desenvolvimento</a>
 
+- http://www.oracle.com/technetwork/java/javase/downloads/index.html
+- http://tomcat.apache.org/
+- https://www.eclipse.org/downloads/
+- https://dev.mysql.com/downloads/
+- https://www.mysql.com/products/workbench/
+
 [Voltar ao Índice](#indice)
 
 ---
 
 ## <a name="parte2">Primeiros passos com o JavaServer Faces</a>
+
 
 
 [Voltar ao Índice](#indice)
