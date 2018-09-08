@@ -41,7 +41,7 @@
 
 ## <a name="parte2">Primeiros passos com o JavaServer Faces</a>
 
-2.8 - Checklist e teste  
+#### 2.8 - Checklist e teste  
 :white_check_mark: - Criar projeto teste do tipo Maven Project  
 :white_check_mark: - Alterar o pom.xml para vincular ao Java 1.8 e padronizar para UTF-8  
 
@@ -128,7 +128,7 @@
 
 :white_check_mark: - Criar o arquivo OlaMundo.xhtml para realização de teste
 
-```html
+```xml
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
@@ -144,6 +144,173 @@
 </h:body>
 </html>
 ```
+
+#### 2.19 Checklist e teste
+
+:white_check_mark: - Criar uma classe UsuarioBean  
+:white_check_mark: - Gerar os métos get e set para as propriedades da classe UsuarioBean  
+:white_check_mark: - Criar os métodos novo() e salvar()  
+:white_check_mark: - Incluir na classe UsuarioBean as annotations @ManagedBean e @RequestScoped  
+
+```java
+package br.com.javaweb.teste.web;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+//import java.util.Map;
+//import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
+
+@ManagedBean(name="usuarioBean")
+@RequestScoped
+public class UsuarioBean {
+ public String nome;
+ public String email;
+ public String senha;
+ public String confirmaSenha;
+ 
+// inicio exemplo de ManagedProperty
+/* @ManagedProperty(value="#{param}")
+ private Map<String, String> parametros;
+  
+ public Map<String, String> getParametros() {
+	return parametros;
+}
+
+public void setParametros(Map<String, String> parametros) {
+	this.parametros = parametros;
+}*/
+// fim exemplo de ManagedProperty
+
+public String novo() {
+	 return "usuario";
+ }
+ 
+public String salvar() { 
+	FacesContext context = FacesContext.getCurrentInstance(); 
+	if (!this.senha.equalsIgnoreCase(this.confirmaSenha)) {
+		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Senha confirmada incorretamente",""));
+		return "usuario";
+	}
+	// FUTURO - salva o usuário
+	return "mostrausuario"; 
+}
+ 
+public String getNome() {
+	return nome;
+}
+public void setNome(String nome) {
+	this.nome = nome;
+}
+public String getEmail() {
+	return email;
+}
+public void setEmail(String email) {
+	this.email = email;
+}
+public String getSenha() {
+	return senha;
+}
+public void setSenha(String senha) {
+	this.senha = senha;
+}
+public String getConfirmaSenha() {
+	return confirmaSenha;
+}
+public void setConfirmaSenha(String confirmaSenha) {
+	this.confirmaSenha = confirmaSenha;
+}
+ 
+ 
+ 
+}
+
+```
+
+:white_check_mark: - Criar página usuario.xhtml  
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" 
+	xmlns:f="http://xmlns.jcp.org/jsf/core"> 
+<h:head> 
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<title>Cadastro de Usuários</title>
+</h:head>
+<h:body> 
+	<h1>Cadastro de Usuários</h1>
+	<hr />
+	<h:form acceptcharset="UTF-8"> 
+		<h:messages /> 
+		<h:panelGrid columns="2"> 
+			<h:outputLabel value="Nome:" for="nome" /> 
+			<h:inputText id="nome" label="Nome" value="#{usuarioBean.nome}" required="true" /> 
+			<h:outputLabel value="e-Mail:" for="email" />
+			<h:inputText id="email" label="e-Mail" value="#{usuarioBean.email}" />
+			<h:outputLabel value="Senha:" for="senha" />
+			<h:inputSecret id="senha" label="Senha" value="#{usuarioBean.senha}" required="true" />
+			<h:outputLabel value="Confirmar Senha:" for="confirmarsenha" />
+			<h:inputSecret id="confirmarsenha" label="Confirmar Senha" value="#{usuarioBean.confirmaSenha}" 
+				required="true" />
+			<h:outputText />
+			<h:commandButton action="#{usuarioBean.salvar}" value="Salvar" /> 
+		</h:panelGrid>
+	</h:form>
+	<hr />
+</h:body>
+</html>
+
+```
+:white_check_mark: - Criar página mostrausuario.xhtml  
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+	<title>Usuário cadastrado</title>
+</h:head>
+<h:body>
+	<h1>Usuário cadastrado</h1>
+	<hr/>
+	Nome:		<h:outputText value="#{usuarioBean.nome}"/> <br/>
+	e-Mail:	<h:outputLink value="mailto:#{usuarioBean.email}"> 
+					<h:outputText value="#{usuarioBean.email}"/>
+					</h:outputLink><br/>
+	Senha: 	<h:outputText value="#{usuarioBean.senha}"/><br/>
+	<hr/>
+	<h:form>
+		<h:commandLink action="index" value="Início"/>
+	</h:form>
+</h:body>
+</html>
+
+```
+:white_check_mark: - Criar página index.xhtml  
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+<title>Teste</title>
+</h:head>
+<h:body>
+	<h1>Teste</h1>
+	<h:form>
+		<h:commandLink action="#{usuarioBean.novo}">Novo usuário</h:commandLink>
+	</h:form>
+</h:body>
+</html>
+```
+
+- JSF: conheça os principais componentes -> https://www.devmedia.com.br/jsf-conheca-os-principais-componentes/37360
+
+
 
 [Voltar ao Índice](#indice)
 
