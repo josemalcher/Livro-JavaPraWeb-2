@@ -1,4 +1,4 @@
-package br.com.javaparaweb.capitulo3.crudjdbc;
+package br.com.javaweb.capitulo3.crudjdbc;
 
 import java.sql.*;
 import java.sql.Date;
@@ -8,7 +8,7 @@ public class ContatoCrudJDBC {
 	public void salvar(Contato contato) {
 		Connection conexao = this.geraConexao();
 		PreparedStatement insereSt = null;
-		String sql = "insert into contato (nome, telefone, email, dt_cad, obs) values (?, ?, ?, ?, ?)";
+		String sql = "insert into contato (nome, telefone, email, td_cad, obs) values (?, ?, ?, ?, ?)";
 		try {
 			insereSt = conexao.prepareStatement(sql);
 			insereSt.setString(1, contato.getNome());
@@ -26,7 +26,7 @@ public class ContatoCrudJDBC {
 				conexao.close();
 			} catch (Throwable e) {
 				System.out
-						.println("Erro ao fechar opera��es de inser��o. Mensagem: "
+						.println("Erro ao fechar operações de inserção. Mensagem: "
 								+ e.getMessage());
 			}
 		}
@@ -36,7 +36,7 @@ public class ContatoCrudJDBC {
 		Connection conexao = this.geraConexao();
 		PreparedStatement atualizaSt = null;
 
-		// Aqui n�o atualizamos o campo data de cadastro
+		// Aqui não atualizamos o campo data de cadastro
 		String sql = "update contato set nome=?, telefone=?, email=?, obs=? where codigo=?";
 
 		try {
@@ -55,7 +55,7 @@ public class ContatoCrudJDBC {
 				conexao.close();
 			} catch (Throwable e) {
 				System.out
-						.println("Erro ao fechar opera��es de atualiza��o. Mensagem: "
+						.println("Erro ao fechar operações de atualização. Mensagem: "
 								+ e.getMessage());
 			}
 		}
@@ -80,7 +80,7 @@ public class ContatoCrudJDBC {
 				conexao.close();
 			} catch (Throwable e) {
 				System.out
-						.println("Erro ao fechar opera��es de exclus�o. Mensagem: "
+						.println("Erro ao fechar operações de exclusão. Mensagem: "
 								+ e.getMessage());
 			}
 		}
@@ -102,12 +102,12 @@ public class ContatoCrudJDBC {
 				contato.setNome(resultado.getString("nome"));
 				contato.setTelefone(resultado.getString("telefone"));
 				contato.setEmail(resultado.getString("email"));
-				contato.setDataCadastro(resultado.getDate("dt_cad"));
+				contato.setDataCadastro(resultado.getDate("td_cad"));
 				contato.setObservacao(resultado.getString("obs"));
 				contatos.add(contato);
 			}
 		} catch (SQLException e) {
-			System.out.println("Erro ao buscar c�digo do contato. Mensagem: "
+			System.out.println("Erro ao buscar código do contato. Mensagem: "
 					+ e.getMessage());
 		} finally {
 			try {
@@ -116,7 +116,7 @@ public class ContatoCrudJDBC {
 				conexao.close();
 			} catch (Throwable e) {
 				System.out
-						.println("Erro ao fechar opera��es de consulta. Mensagem: "
+						.println("Erro ao fechar operações de consulta. Mensagem: "
 								+ e.getMessage());
 			}
 		}
@@ -142,11 +142,11 @@ public class ContatoCrudJDBC {
 				contato.setNome(resultado.getString("nome"));
 				contato.setTelefone(resultado.getString("telefone"));
 				contato.setEmail(resultado.getString("email"));
-				contato.setDataCadastro(resultado.getDate("dt_cad"));
+				contato.setDataCadastro(resultado.getDate("td_cad"));
 				contato.setObservacao(resultado.getString("obs"));
 			}
 		} catch (SQLException e) {
-			System.out.println("Erro ao buscar c�digo do contato. Mensagem: "
+			System.out.println("Erro ao buscar código do contato. Mensagem: "
 					+ e.getMessage());
 		} finally {
 			try {
@@ -155,7 +155,7 @@ public class ContatoCrudJDBC {
 				conexao.close();
 			} catch (Throwable e) {
 				System.out
-						.println("Erro ao fechar opera��es de consulta. Mensagem: "
+						.println("Erro ao fechar operações de consulta. Mensagem: "
 								+ e.getMessage());
 			}
 		}
@@ -166,15 +166,15 @@ public class ContatoCrudJDBC {
 		Connection conexao = null;
 
 		try {
-			// Registrando a classe JDBC no sistema em tempo de execu��o
+			// Registrando a classe JDBC no sistema em tempo de execução
 			Class.forName("com.mysql.jdbc.Driver");
-			String url = "jdbc:mysql://localhost/agenda";
+			String url = "jdbc:mysql://localhost/javaweb_agenda";
 			String usuario = "root";
-			String senha = "root";
+			String senha = "";
 			conexao = DriverManager.getConnection(url, usuario, senha);
 		} catch (ClassNotFoundException e) {
 			System.out
-					.println("Classe n�o encontrada. Erro: " + e.getMessage());
+					.println("Classe não encontrada. Erro: " + e.getMessage());
 		} catch (SQLException e) {
 			System.out.println("Ocorreu um erro de SQL. Erro: "
 					+ e.getMessage());
@@ -200,7 +200,7 @@ public class ContatoCrudJDBC {
 		fulano.setTelefone("(47) 7777-2222");
 		fulano.setEmail("fulano@teste.com.br");
 		fulano.setDataCadastro(new Date(System.currentTimeMillis()));
-		fulano.setObservacao("Novo contato � poss�vel cliente");
+		fulano.setObservacao("Novo contato é possível cliente");
 		contatoCRUDJDBC.salvar(fulano);
 		System.out.println("Contatos cadastrados: " + contatoCRUDJDBC.listar().size());
 	}

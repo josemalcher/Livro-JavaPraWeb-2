@@ -319,6 +319,319 @@ public void setConfirmaSenha(String confirmaSenha) {
 ## <a name="parte3">Introdução a Hibernate e SQL com Java</a>
 
 
+#### 3.2.4 Checklist
+
+:white_check_mark: - Criar o Java Project exemplojdbc  
+:white_check_mark: - Criar package br.com.javaweb.capitulo3.conexao  
+:white_check_mark: - Criar a calsse ConectaMysql  
+:white_check_mark: - Criar a pasta lib na raix do projeto.  
+:white_check_mark: - Obter o arquivo .jar do Mysql Connector/J.  
+:white_check_mark: - Copiar o arquivo mysql-connector*-bin.jar para a pasta lib e adicionar no Build Path.  
+
+```java
+package br.com.javaweb.capitulo3.conexao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class ConectaMySQL {
+	public static void main(String[] args) {
+		Connection conexao = null;
+		try {
+			String url = "jdbc:mysql://localhost/javaweb_agenda";
+			String usuario = "root";
+			String senha = "";
+			conexao = DriverManager.getConnection(url, usuario, senha); 
+			System.out.println("Conectou!");
+			conexao.close();
+		} catch (SQLException e) {
+			System.out.println("Ocorreu um erro ao criar a conexção. Erro: " + e.getMessage());
+		}
+	}
+
+}
+
+```
+
+:white_check_mark: - Criar banco de dados agenda no mysql.  
+:white_check_mark: - Executar o comando "use agenda" para tornar o banco de daos agenda ativo  
+:white_check_mark: - Criar tabela contrato.  
+
+```sql
+CREATE TABLE `javaweb_agenda`.`contato` ( `codigo` INT NOT NULL AUTO_INCREMENT , `nome` VARCHAR(50) NOT NULL , `telefone` VARCHAR(50) NOT NULL , `email` VARCHAR(50) NOT NULL , `td_cad` DATE NOT NULL , `obs` TEXT NOT NULL , PRIMARY KEY (`codigo`)) ENGINE = InnoDB;
+```
+
+:white_check_mark: - Criar Classe Contato.  
+
+```java
+package br.com.javaweb.capitulo3.crudjdbc;
+
+import java.sql.Date;
+
+public class Contato {
+	private Integer	codigo;
+	private String  nome;
+	private String  telefone;
+	private String  email;
+	private Date dataCadastro;
+	private String observacao;
+	public Integer getCodigo() {
+		return codigo;
+	}
+	public void setCodigo(Integer codigo) {
+		this.codigo = codigo;
+	}
+	public String getNome() {
+		return nome;
+	}
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+	public String getTelefone() {
+		return telefone;
+	}
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public Date getDataCadastro() {
+		return dataCadastro;
+	}
+	public void setDataCadastro(Date dataCadastro) {
+		this.dataCadastro = dataCadastro;
+	}
+	public String getObservacao() {
+		return observacao;
+	}
+	public void setObservacao(String observacao) {
+		this.observacao = observacao;
+	}
+}
+
+```
+
+:white_check_mark: - Gerar métodos get e set para classe Contato  
+:white_check_mark: - Criar classe ContatoCrudJDBC  
+:white_check_mark: - Executar a classe ContatoCrudJDBC para testar a inserção e a consulta de irformações usando o Hibernate.  
+
+```java
+package br.com.javaweb.capitulo3.crudjdbc;
+
+import java.sql.*;
+import java.sql.Date;
+import java.util.*;
+
+public class ContatoCrudJDBC {
+	public void salvar(Contato contato) {
+		Connection conexao = this.geraConexao();
+		PreparedStatement insereSt = null;
+		String sql = "insert into contato (nome, telefone, email, td_cad, obs) values (?, ?, ?, ?, ?)";
+		try {
+			insereSt = conexao.prepareStatement(sql);
+			insereSt.setString(1, contato.getNome());
+			insereSt.setString(2, contato.getTelefone());
+			insereSt.setString(3, contato.getEmail());
+			insereSt.setDate(4, contato.getDataCadastro());
+			insereSt.setString(5, contato.getObservacao());
+			insereSt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("Erro ao incluir contato. Mensagem: "
+					+ e.getMessage());
+		} finally {
+			try {
+				insereSt.close();
+				conexao.close();
+			} catch (Throwable e) {
+				System.out
+						.println("Erro ao fechar operações de inserção. Mensagem: "
+								+ e.getMessage());
+			}
+		}
+	}
+
+	public void atualizar(Contato contato) {
+		Connection conexao = this.geraConexao();
+		PreparedStatement atualizaSt = null;
+
+		// Aqui não atualizamos o campo data de cadastro
+		String sql = "update contato set nome=?, telefone=?, email=?, obs=? where codigo=?";
+
+		try {
+			atualizaSt = conexao.prepareStatement(sql);
+			atualizaSt.setString(1, contato.getNome());
+			atualizaSt.setString(2, contato.getTelefone());
+			atualizaSt.setString(3, contato.getEmail());
+			atualizaSt.setString(4, contato.getObservacao());
+			atualizaSt.setInt(5, contato.getCodigo());
+			atualizaSt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("Erro ao atualizar contato. Mensagem: " + e.getMessage());
+		} finally {
+			try {
+				atualizaSt.close();
+				conexao.close();
+			} catch (Throwable e) {
+				System.out
+						.println("Erro ao fechar operações de atualização. Mensagem: "
+								+ e.getMessage());
+			}
+		}
+	}
+
+	public void excluir(Contato contato) {
+		Connection conexao = this.geraConexao();
+		PreparedStatement excluiSt = null;
+
+		String sql = "delete from contato where codigo = ?";
+
+		try {
+			excluiSt = conexao.prepareStatement(sql);
+			excluiSt.setInt(1, contato.getCodigo());
+			excluiSt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("Erro ao excluir contato. Mensagem: "
+					+ e.getMessage());
+		} finally {
+			try {
+				excluiSt.close();
+				conexao.close();
+			} catch (Throwable e) {
+				System.out
+						.println("Erro ao fechar operações de exclusão. Mensagem: "
+								+ e.getMessage());
+			}
+		}
+	}
+
+	public List<Contato> listar() {
+		Connection conexao = this.geraConexao();
+		List<Contato> contatos = new ArrayList<Contato>();
+		Statement consulta = null;
+		ResultSet resultado = null;
+		Contato contato = null;
+		String sql = "select * from contato";
+		try {
+			consulta = conexao.createStatement();
+			resultado = consulta.executeQuery(sql);
+			while (resultado.next()) {
+				contato = new Contato();
+				contato.setCodigo(resultado.getInt("codigo"));
+				contato.setNome(resultado.getString("nome"));
+				contato.setTelefone(resultado.getString("telefone"));
+				contato.setEmail(resultado.getString("email"));
+				contato.setDataCadastro(resultado.getDate("td_cad"));
+				contato.setObservacao(resultado.getString("obs"));
+				contatos.add(contato);
+			}
+		} catch (SQLException e) {
+			System.out.println("Erro ao buscar código do contato. Mensagem: "
+					+ e.getMessage());
+		} finally {
+			try {
+				consulta.close();
+				resultado.close();
+				conexao.close();
+			} catch (Throwable e) {
+				System.out
+						.println("Erro ao fechar operações de consulta. Mensagem: "
+								+ e.getMessage());
+			}
+		}
+		return contatos;
+	}
+
+	public Contato buscaContato(int valor) {
+		Connection conexao = this.geraConexao();
+		PreparedStatement consulta = null;
+		ResultSet resultado = null;
+		Contato contato = null;
+
+		String sql = "select * from contato where codigo = ?";
+
+		try {
+			consulta = conexao.prepareStatement(sql);
+			consulta.setInt(1, valor);
+			resultado = consulta.executeQuery();
+
+			if (resultado.next()) {
+				contato = new Contato();
+				contato.setCodigo(resultado.getInt("codigo"));
+				contato.setNome(resultado.getString("nome"));
+				contato.setTelefone(resultado.getString("telefone"));
+				contato.setEmail(resultado.getString("email"));
+				contato.setDataCadastro(resultado.getDate("td_cad"));
+				contato.setObservacao(resultado.getString("obs"));
+			}
+		} catch (SQLException e) {
+			System.out.println("Erro ao buscar código do contato. Mensagem: "
+					+ e.getMessage());
+		} finally {
+			try {
+				consulta.close();
+				resultado.close();
+				conexao.close();
+			} catch (Throwable e) {
+				System.out
+						.println("Erro ao fechar operações de consulta. Mensagem: "
+								+ e.getMessage());
+			}
+		}
+		return contato;
+	}
+
+	public Connection geraConexao() {
+		Connection conexao = null;
+
+		try {
+			// Registrando a classe JDBC no sistema em tempo de execução
+			Class.forName("com.mysql.jdbc.Driver");
+			String url = "jdbc:mysql://localhost/javaweb_agenda";
+			String usuario = "root";
+			String senha = "";
+			conexao = DriverManager.getConnection(url, usuario, senha);
+		} catch (ClassNotFoundException e) {
+			System.out
+					.println("Classe não encontrada. Erro: " + e.getMessage());
+		} catch (SQLException e) {
+			System.out.println("Ocorreu um erro de SQL. Erro: "
+					+ e.getMessage());
+		}
+		return conexao;
+	}
+
+	public static void main(String[] args) {
+		ContatoCrudJDBC contatoCRUDJDBC = new ContatoCrudJDBC();
+
+		// Criando um primeiro contato
+		Contato beltrano = new Contato();
+		beltrano.setNome("Beltrano Solar");
+		beltrano.setTelefone("(47) 5555-3333");
+		beltrano.setEmail("beltrano@teste.com.br");
+		beltrano.setDataCadastro(new Date(System.currentTimeMillis()));
+		beltrano.setObservacao("Novo cliente");
+		contatoCRUDJDBC.salvar(beltrano);
+
+		// Criando um segundo contato
+		Contato fulano = new Contato();
+		fulano.setNome("Fulano Lunar");
+		fulano.setTelefone("(47) 7777-2222");
+		fulano.setEmail("fulano@teste.com.br");
+		fulano.setDataCadastro(new Date(System.currentTimeMillis()));
+		fulano.setObservacao("Novo contato é possível cliente");
+		contatoCRUDJDBC.salvar(fulano);
+		System.out.println("Contatos cadastrados: " + contatoCRUDJDBC.listar().size());
+	}
+
+}
+
+```
+
 [Voltar ao Índice](#indice)
 
 ---
