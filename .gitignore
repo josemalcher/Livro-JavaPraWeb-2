@@ -1,5 +1,6 @@
 apache-tomcat-8.5.42/*
 wildfly-17.0.1.Final/*
+libs/*
 # Created by https://www.gitignore.io/api/java,eclipse,java-web,code-java,jetbrains,intellij+all
 
 ### Code-Java ###

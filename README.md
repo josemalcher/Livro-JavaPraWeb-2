@@ -52,8 +52,42 @@
 
 ## <a name="parte3">Introdução a Hibernate e SQL com Java</a>
 
+-[x] 3.2.4 Checklist (página 129)
+    
+- cap3-intro-hibernate-sql-java
+    - cap3-intro-hibernate-sql-java/src/conexao/ConectaMySQL.java
 
-#### 3.2.4 Checklist
+```java
+package conexao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class ConectaMySQL {
+    public static void main(String[] args) {
+        Connection conexao = null;
+        try {
+            // Registrando a classe JDBC, e os parâmetros de conexão em tempo de execução
+            String url = "jdbc:mysql://172.22.0.2/cap3_agenda";
+            String usuario = "root";
+            String senha = "passwd123";
+
+            conexao = DriverManager.getConnection(url, usuario, senha); 
+            System.out.println("Conectou!");
+            conexao.close();
+        } catch (SQLException e) {
+            System.out.println("Ocorreu um erro ao criar a conexão. Erro: " + e.getMessage());
+        }
+    }
+}
+```
+
+- cap3-intro-hibernate-sql-java/src/crudjdbc/Contato.java
+- cap3-intro-hibernate-sql-java/src/crudjdbc/ContatoCrudJDBC.java
+
+
+
 
 
 [Voltar ao Índice](#indice)
