@@ -41,6 +41,11 @@
 
 ## <a name="parte2">Primeiros passos com o JavaServer Faces</a>
 
+- https://wildfly.org/downloads/
+
+- [x] 2.10 - Checklist e teste
+
+
 [Voltar ao Índice](#indice)
 
 ---
