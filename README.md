@@ -172,7 +172,8 @@ public class ContatoCrudAnnotations {
   - Livro-JavaPraWeb-2/cap3-intro-
 
 
-
+- 3.6.7 Execução do projeto comercio
+  - Livro-JavaPraWeb-2/cap3-intro-
 
 [Voltar ao Índice](#indice)
 

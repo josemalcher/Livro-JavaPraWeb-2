@@ -2,6 +2,7 @@ package entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import org.hibernate.annotations.Parameter;
 
 
 @Entity
@@ -12,8 +13,7 @@ public class Endereco implements Serializable {
 
     @Id
     @GeneratedValue(generator = "fk_endereco_cod_cliente")
-    @org.hibernate.annotations.GenericGenerator(name = "fk_endereco_cod_cliente",
-            strategy = "foreign", parameters = @Parameter(name = "property", value = "cliente"))
+    @org.hibernate.annotations.GenericGenerator(name = "fk_endereco_cod_cliente", strategy = "foreign", parameters = @Parameter(name = "property", value = "cliente"))
     @Column(name = "cod_cliente")
     private Integer endereco;
 

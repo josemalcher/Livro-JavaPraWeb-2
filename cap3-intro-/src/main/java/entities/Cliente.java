@@ -2,6 +2,7 @@ package entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "cliente")
@@ -22,7 +23,7 @@ public class Cliente implements Serializable {
     private List<Pedido> pedido;
 
     @Column(length = 45)
-    private Strint nome;
+    private String nome;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -52,29 +53,29 @@ public class Cliente implements Serializable {
         this.pedido = pedido;
     }
 
-    public Strint getNome() {
+    public String getNome() {
         return nome;
     }
 
-    public void setNome(Strint nome) {
+    public void setNome(String nome) {
         this.nome = nome;
     }
 
     /*@Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Cliente cliente1 = (Cliente) o;
-        return Objects.equals(cliente, cliente1.cliente) &&
-                Objects.equals(endereco, cliente1.endereco) &&
-                Objects.equals(pedido, cliente1.pedido) &&
-                Objects.equals(nome, cliente1.nome);
-    }
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Cliente cliente1 = (Cliente) o;
+            return Objects.equals(cliente, cliente1.cliente) &&
+                    Objects.equals(endereco, cliente1.endereco) &&
+                    Objects.equals(pedido, cliente1.pedido) &&
+                    Objects.equals(nome, cliente1.nome);
+        }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(cliente, endereco, pedido, nome);
-    }*/
+        @Override
+        public int hashCode() {
+            return Objects.hash(cliente, endereco, pedido, nome);
+        }*/
     @Override
     public int hashCode() {
         final int prime = 31;

@@ -1,12 +1,12 @@
-package util;
+package app;
 
-import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.SessionFactory;
 
 public class HibernateUtil {
-    private static final SessionFactory sessionFactory	= buildSessionFactory();
+    private static final SessionFactory	sessionFactory	= buildSessionFactory();
 
     private static SessionFactory buildSessionFactory() {
         try {
@@ -19,7 +19,7 @@ public class HibernateUtil {
 
             return cfg.buildSessionFactory(servico);
         } catch (Throwable e) {
-            System.out.println("Criação inicial do objeto SessionFactory falhou. Erro: " + e);
+            System.out.println("Criacao inicial do objeto SessionFactory falhou. Erro: " + e);
             throw new ExceptionInInitializerError(e);
         }
     }

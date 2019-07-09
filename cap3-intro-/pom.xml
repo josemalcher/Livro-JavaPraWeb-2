@@ -21,7 +21,7 @@
     </build>
     <name>Comércio</name>
     <description>Exemplo de projeto simulando um comércio com Hibernate</description>
-    <dependencies>
+    <!--<dependencies>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
@@ -31,6 +31,18 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.30</version>
+        </dependency>
+    </dependencies>-->
+    <dependencies>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>4.3.4.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.16</version>
         </dependency>
     </dependencies>
     

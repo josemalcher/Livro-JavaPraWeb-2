@@ -1,36 +1,35 @@
 package entities;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
 
-@Entity
-@Table(name = "categoria")
-public class Categoria implements Serializable {
 
-    private static final long	serialVersionUID	= -5965972492582974338L;
+@Entity
+@Table(name = "produto")
+public class Produto implements Serializable {
+
+    private static final long serialVersionUID = -7837428706003547247L;
 
     @Id
     @GeneratedValue
-    @Column(name = "cod_categoria")
-    private Integer	categoria;
+    @Column(name = "cod_produto")
+    private Integer produto;
 
-    @Column(length = 45)
-    private String	descricao;
+    private String descricao;
 
-    @Lob
-    private String resumo;
+    private Float preco;
 
-    public Categoria(String descricao, String resumo) {
-        this.descricao = descricao;
-        this.resumo = resumo;
+    @ManyToOne
+    @JoinColumn(name = "cod_categoria")
+    private Categoria categoria;
+
+    public Integer getProduto() {
+        return produto;
     }
 
-    public Integer getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(Integer categoria) {
-        this.categoria = categoria;
+    public void setProduto(Integer produto) {
+        this.produto = produto;
     }
 
     public String getDescricao() {
@@ -41,12 +40,20 @@ public class Categoria implements Serializable {
         this.descricao = descricao;
     }
 
-    public String getResumo() {
-        return resumo;
+    public Float getPreco() {
+        return preco;
     }
 
-    public void setResumo(String resumo) {
-        this.resumo = resumo;
+    public void setPreco(Float preco) {
+        this.preco = preco;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 
     @Override
@@ -57,7 +64,8 @@ public class Categoria implements Serializable {
                 + ((categoria == null) ? 0 : categoria.hashCode());
         result = prime * result
                 + ((descricao == null) ? 0 : descricao.hashCode());
-        result = prime * result + ((resumo == null) ? 0 : resumo.hashCode());
+        result = prime * result + ((preco == null) ? 0 : preco.hashCode());
+        result = prime * result + ((produto == null) ? 0 : produto.hashCode());
         return result;
     }
 
@@ -69,7 +77,7 @@ public class Categoria implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Categoria other = (Categoria) obj;
+        Produto other = (Produto) obj;
         if (categoria == null) {
             if (other.categoria != null)
                 return false;
@@ -80,10 +88,15 @@ public class Categoria implements Serializable {
                 return false;
         } else if (!descricao.equals(other.descricao))
             return false;
-        if (resumo == null) {
-            if (other.resumo != null)
+        if (preco == null) {
+            if (other.preco != null)
                 return false;
-        } else if (!resumo.equals(other.resumo))
+        } else if (!preco.equals(other.preco))
+            return false;
+        if (produto == null) {
+            if (other.produto != null)
+                return false;
+        } else if (!produto.equals(other.produto))
             return false;
         return true;
     }
