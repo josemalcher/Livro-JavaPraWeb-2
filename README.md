@@ -168,6 +168,10 @@ public class ContatoCrudAnnotations {
 
 ```
 
+- 3.6.4.3 Check list parcial do projeto (página 165)
+  - Livro-JavaPraWeb-2/cap3-intro-
+
+
 
 
 [Voltar ao Índice](#indice)
