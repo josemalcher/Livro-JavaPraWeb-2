@@ -181,6 +181,9 @@ public class ContatoCrudAnnotations {
 
 ## <a name="parte4">Desenvolvimento do cadastro de usuários</a>
 
+- Criação do banco (4.2.4 página 192)
+
+
 [Voltar ao Índice](#indice)
 
 ---
