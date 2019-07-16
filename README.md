@@ -183,6 +183,7 @@ public class ContatoCrudAnnotations {
 
 - Criação do banco (4.2.4 página 192)
 
+- Criação da infraestrutura para conexão ao banco de dados (4.3.2.6 página 201)
 
 [Voltar ao Índice](#indice)
 
